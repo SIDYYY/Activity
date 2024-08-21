@@ -10,12 +10,28 @@
             font-family: Arial, sans-serif;
             margin: 0 auto;
         }
-        .form-group {
+        @keyframes spin {
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+        #form > img{
+            position: absolute;
+            right: 25%;
+            top: 14%;
+            width: 150px;
+            animation: spin 3s infinite ease-in-out;
+        }
+        .formField {
             margin-bottom: 15px;
         }
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bolder;
         }
         input[type="text"],
         input[type="email"],
@@ -39,11 +55,13 @@
             background-color: black;
             border: none;
             padding: 15px;
-            border-radius: 20px;
+            border-radius: 10px;
             transition: 0.7s;
+            box-sizing: border-box;
+            height: 50px;
         }
         button:hover{
-            padding: 20px;
+            transform: scale(1.1);
         }
     </style>
 
@@ -54,31 +72,32 @@
     <script>
         document.getElementById('app').innerHTML = `
         <form id="form">
-            <h2>Form</h2>
+            <img src="gear.png"/>
+            <h1>Form</h1>
             <h5>Carl Patrick Daguinotas - BSIT 3R8</h5>
     
-            <div class="form-group">
+            <div class="formField">
                 <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" required>
+                <input type="text" id="firstName" name="firstName" placeholder="e.g : Juan" required>
             </div>
     
-            <div class="form-group">
+            <div class="formField">
                 <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" required>
+                <input type="text" id="lastName" name="lastName" placeholder="e.g : Dela Cruz" required>
             </div>
     
-            <div class="form-group">
+            <div class="formField">
                 <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="e.g : juanDC@gmail.com" required>
                 <span id="emailError" class="error"></span>
             </div>
     
-            <div class="form-group">
+            <div class="formField">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password"  required>
             </div>
     
-            <div class="form-group">
+            <div class="formField">
                 <label for="confirmPassword">Confirm Password:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
                 <span id="passwordError" class="error"></span>
@@ -86,6 +105,44 @@
     
             <button type="submit">Register</button>
         </form>`;
+
+        document.getElementById('form').addEventListener('submit', function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Clear prev errors
+            document.getElementById('emailError').textContent = '';
+            document.getElementById('passwordError').textContent = '';
+
+            // form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const passwordConfirmation = document.getElementById('confirmPassword').value;
+
+            // Email format
+            const eFormat = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            
+            let infoValid = true;
+
+            // Validate email format
+            if (!eFormat.test(email)) {
+                document.getElementById('emailError').textContent = 'Enter a valid email address.';
+                infoValid = false;
+            }
+
+            // Password match verification
+            if (password !== passwordConfirmation) {
+                document.getElementById('passwordError').textContent = 'Passwords do not match.';
+                infoValid = false;
+            }
+
+            // If all validations pass, show an alert
+            if (infoValid) {
+                alert('Registration Successful!');
+                
+            }
+        });
+
     </script>
     
 
