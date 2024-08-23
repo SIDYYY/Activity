@@ -3,67 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writing DOM </title>
+    <title>Writing DOM</title>
     
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0 auto;
-        }
-        @keyframes spin {
-            0%{
-                transform: rotate(0deg);
-            }
-            100%{
-                transform: rotate(360deg);
-            }
-        }
-        #form > img{
-            position: absolute;
-            right: 25%;
-            top: 14%;
-            width: 150px;
-            animation: spin 3s infinite ease-in-out;
-        }
-        .formField {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bolder;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .error {
-            color: red;
-        }
-        #form{
-            width: 40%;
-            margin: 200px auto;
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid gray;
-        }
-        button{
-            color: #fff;
-            background-color: black;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            transition: 0.7s;
-            box-sizing: border-box;
-            height: 50px;
-        }
-        button:hover{
-            transform: scale(1.1);
-        }
-    </style>
+    
 
 </head>
 <body>
@@ -72,7 +14,6 @@
     <script>
         document.getElementById('app').innerHTML = `
         <form id="form">
-            <img src="gear.png"/>
             <h1>Form</h1>
             <h5>Carl Patrick Daguinotas - BSIT 3R8</h5>
     
@@ -106,25 +47,73 @@
             <button type="submit">Register</button>
         </form>`;
 
+        // BODY  
+        document.body.style.fontFamily = "Arial, sans-serif";
+        document.body.style.margin = "0 auto";
+
+        const form = document.getElementById('form');
+        form.style.width = "40%";
+        form.style.margin =  "200px auto";
+        form.style.padding = "30px";
+        form.style.borderRadius = "20px";
+        form.style.border = "2px solid gray";
+
+        const formFields = form.querySelectorAll('.formField');
+        formFields.forEach((field) => {
+            field.style.marginBottom = "15px";
+        });
+
+        const labels = form.querySelectorAll('label');
+        labels.forEach((label) => {
+            label.style.display = "block";
+            label.style.marginBottom = "5px";
+            label.style.fontWeight = "bolder";
+        });
+
+        const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+        inputs.forEach((input) => {
+            input.style.width = "100%";
+            input.style.padding = "8px";
+            input.style.boxSizing = "border-box";
+        });
+
+        const errors = form.querySelectorAll('.error');
+        errors.forEach((error) => {
+            error.style.color = "red";
+        });
+
+        
+        const button = form.querySelector('button');
+        button.style.color = "#fff";
+        button.style.backgroundColor = "black";
+        button.style.border = "none";
+        button.style.padding = "15px";
+        button.style.borderRadius = "10px";
+        button.style.transition = "0.7s";
+        button.style.boxSizing = "border-box";
+        button.style.height = "50px";
+
+        // Form validation logic
         document.getElementById('form').addEventListener('submit', function(event) {
             // Prevent the default form submission
             event.preventDefault();
 
-            // Clear prev errors
+            // Clear previous errors
             document.getElementById('emailError').textContent = '';
             document.getElementById('passwordError').textContent = '';
+            
 
-            // form values
+            // Get form values
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const passwordConfirmation = document.getElementById('confirmPassword').value;
-
-            // Email format
+            const inputs = document.querySelectorAll('input');
+            // Email format 
             const eFormat = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
             
             let infoValid = true;
 
-            // Validate email format
+            // Validate email format 
             if (!eFormat.test(email)) {
                 document.getElementById('emailError').textContent = 'Enter a valid email address.';
                 infoValid = false;
@@ -138,13 +127,17 @@
 
             // If all validations pass, show an alert
             if (infoValid) {
-                alert('Registration Successful!');
-                
-            }
+                    alert('Registration Successful!');
+
+                    // Clear all input fields
+                    const inputs = document.querySelectorAll('input');
+                    inputs.forEach((input) => {
+                        input.value = '';
+                    });
+                }
+
         });
 
     </script>
-    
-
 </body>
 </html>
